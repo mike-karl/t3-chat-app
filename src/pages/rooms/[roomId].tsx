@@ -6,8 +6,19 @@ import { Message } from "../../constants/schemas"
 import { trpc } from '../../utils/trpc'
 
 function MessageItem({message, session}: {message: Message, session: Session}){
-    return <li>
+    const baseStyles = 'mb-4 text-md w-7/12 p-4 text-gray-700 border border-gray-700 rounded-md'
+
+    const liStyles = message.sender.name === session.user?.name ? baseStyles : baseStyles.concat(' self-end bg-gray-700 text-white');
+
+    return <li className={liStyles}>
         {message.message}
+        <div className="flex flex-row justify-end text-sm">
+            <time>
+                {message.sentAt.toLocaleTimeString('en-US', {timeStyle: 'short'})}{" "}
+                - {message.sender.name}
+            </time>
+        </div>
+        
     </li>
 }
 
@@ -45,27 +56,39 @@ function RoomPage(){
         )
     }
 
-    return <div>
-        <ul>
-            {messages.map((m) => {
-                return <MessageItem key={m.id} message={m} session={session} />
-            })}
-        </ul>
-        <form onSubmit={(e) => {
+    return (
+    <div className="flex flex-col h-screen">
+            <div className="flex-1">
+                <ul className="flex flex-col p-4 overflow-auto h-auto">
+                {messages.map((m) => {
+                    return <MessageItem key={m.id} message={m} session={session} />
+                })}
+            </ul>
+        </div>
+        
+        <form className="flex"
+        onSubmit={(e) => {
             e.preventDefault();
 
             sendMessageMutation({
                 roomId,
                 message,
             });
+            setMessage('')
         }}>
-            <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="what do you want to say"/>
+            <textarea 
+            className="black p-2.5 w-full text-gray-700 bg-gray-50 rounded-md border border-gray-700 resize-none scroll-auto overflow-hidden" 
+            value={message} 
+            onChange={(e) => setMessage(e.target.value)} 
+            placeholder="send a message"/>
 
-            <button type="submit">
+            <button className="flex-1 text-white bg-gray-900 p-2.5 rounded-md mx-3"
+            type="submit">
                 Send message
             </button>
         </form>
     </div>
+    )
 }
 
 export default RoomPage
