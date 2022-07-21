@@ -16,4 +16,5 @@ The work around I found was to add "moduleResolution": "node16" to ./tsconfig-se
       const { env } = await import("../env.mjs");
     })().catch(err => console.error(err))</code>
     
-    this should fix the error when starting the web socket serve.
+    
+This should fix the error when starting the web socket server.
