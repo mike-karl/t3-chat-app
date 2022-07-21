@@ -10,7 +10,7 @@ gihub repo: https://github.com/TomDoesTech/t3-chat
 ### Slight changes
 
 create-t3-app has made changes to their template that cause the original tutorial code to throw an error when trying to start your web socket server.
-This error occurs because in the tutorial version of create-t3-app template the <a>./src/server/env.mjs</a> and ./src/serve/env-schema.mjs files were .js files.
+This error occurs because in the tutorial version of create-t3-app template the (./src/server/env.mjs) and (./src/serve/env-schema.mjs) files were .js files.
 We cannot simply change the file type to .js because in the template nextjs requires the files to be .mjs files for it to import them to the /next.config.mjs file.
 The work around I found was to add "moduleResolution": "node16" to ./tsconfig-server.json and then in ./src/server/db/client.ts remove <code>import { env } from "../env";</code> and instead use a dynamic import like <code>(async () => {
       const { env } = await import("../env.mjs");
