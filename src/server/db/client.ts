@@ -11,17 +11,6 @@ export const prisma =
     log: ["query"],
   });
     
-    // async function dynamicImport(url: string) {
-    //   const { env } = await import(url)
-    //   console.log('env variables: ' + JSON.stringify(env))
-
-    //   if ( env.NODE_ENV !== "production") {
-    //     global.prisma = prisma;
-    //   }
-    // }
-
-    // dynamicImport("../env.mjs")
-    
     (async () => {
       const { env } = await import("../env.mjs");
     })().catch(err => console.error(err))
